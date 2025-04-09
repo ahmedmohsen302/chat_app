@@ -41,7 +41,7 @@ class _LoginViewState extends State<LoginView> {
                 Image.asset('assets/images/scholar.png', height: 150),
                 Text(
                   textAlign: TextAlign.center,
-                  'Chat app',
+                  'Chat App',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 54,
@@ -64,6 +64,7 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 SizedBox(height: 20),
                 CustomTextField(
+                  obsecureText: true,
                   hintText: 'enter your password',
                   labelText: 'Password',
                   onChanged: (data) {
@@ -79,7 +80,11 @@ class _LoginViewState extends State<LoginView> {
                       setState(() {});
                       try {
                         await logIn();
-                        Navigator.pushNamed(context, ChatView.id);
+                        Navigator.pushNamed(
+                          context,
+                          ChatView.id,
+                          arguments: email,
+                        );
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'user-not-found') {
                           showSnackBar(context, 'No user found for that email');
@@ -88,6 +93,8 @@ class _LoginViewState extends State<LoginView> {
                             context,
                             'Wrong password provided for that user',
                           );
+                        } else {
+                          showSnackBar(context, e.toString());
                         }
                       } catch (e) {
                         showSnackBar(context, e.toString());

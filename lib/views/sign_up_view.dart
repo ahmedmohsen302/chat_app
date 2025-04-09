@@ -40,7 +40,7 @@ class _SignUpViewState extends State<SignUpView> {
                 Image.asset('assets/images/scholar.png', height: 150),
                 Text(
                   textAlign: TextAlign.center,
-                  'Chat app',
+                  'Chat App',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 54,
@@ -78,7 +78,11 @@ class _SignUpViewState extends State<SignUpView> {
                       setState(() {});
                       try {
                         await signUp();
-                        Navigator.pushNamed(context, ChatView.id);
+                        Navigator.pushNamed(
+                          context,
+                          ChatView.id,
+                          arguments: email,
+                        );
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'weak-password') {
                           showSnackBar(context, 'Weak password');
