@@ -1,5 +1,6 @@
 import 'package:chat_app/constants.dart';
 import 'package:chat_app/helper/show_snack_bar.dart';
+import 'package:chat_app/views/chat_view.dart';
 import 'package:chat_app/views/sign_up_view.dart';
 import 'package:chat_app/widgets/custom_button.dart';
 import 'package:chat_app/widgets/custom_text_field.dart';
@@ -78,7 +79,7 @@ class _LoginViewState extends State<LoginView> {
                       setState(() {});
                       try {
                         await logIn();
-                        showSnackBar(context, 'success');
+                        Navigator.pushNamed(context, ChatView.id);
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'user-not-found') {
                           showSnackBar(context, 'No user found for that email');

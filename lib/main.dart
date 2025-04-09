@@ -1,3 +1,4 @@
+import 'package:chat_app/views/chat_view.dart';
 import 'package:chat_app/views/login_view.dart';
 import 'package:chat_app/views/sign_up_view.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,6 +20,7 @@ class ChatApp extends StatelessWidget {
       routes: {
         LoginView.id: (context) => LoginView(),
         SignUpView.id: (context) => SignUpView(),
+        ChatView.id: (context) => ChatView(),
       },
       initialRoute: LoginView.id,
       debugShowCheckedModeBanner: false,
