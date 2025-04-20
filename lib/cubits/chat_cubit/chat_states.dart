@@ -5,9 +5,9 @@ abstract class ChatStates {}
 class ChatInitial extends ChatStates {}
 
 class ChatSuccess extends ChatStates {
-  final List<MessageModel> messages;
+  List<MessageModel> messages;
 
-  ChatSuccess(this.messages);
+  ChatSuccess({required this.messages});
 }
 
 class ChatFailure extends ChatStates {}
