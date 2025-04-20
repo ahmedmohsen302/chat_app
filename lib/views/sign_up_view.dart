@@ -1,7 +1,8 @@
+import 'package:chat_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:chat_app/blocs/auth_bloc/auth_event.dart';
+import 'package:chat_app/blocs/auth_bloc/auth_state.dart';
 import 'package:chat_app/constants.dart';
 import 'package:chat_app/cubits/chat_cubit/chat_cubit.dart';
-import 'package:chat_app/cubits/sign_up_cubit/sign_up_cubit.dart';
-import 'package:chat_app/cubits/sign_up_cubit/sign_up_states.dart';
 import 'package:chat_app/helper/show_snack_bar.dart';
 import 'package:chat_app/views/chat_view.dart';
 import 'package:chat_app/widgets/custom_button.dart';
@@ -30,7 +31,7 @@ class _SignUpViewState extends State<SignUpView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SignUpCubit, SignUpState>(
+    return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is SignUpSuccess) {
           isLoading = false;
@@ -94,9 +95,9 @@ class _SignUpViewState extends State<SignUpView> {
                       onTap: () async {
                         if (formKey.currentState!.validate()) {
                           isLoading = true;
-                          BlocProvider.of<SignUpCubit>(
-                            context,
-                          ).signUp(email: email!, password: password!);
+                          BlocProvider.of<AuthBloc>(context).add(
+                            SignUpEvent(email: email!, password: password!),
+                          );
                         }
                       },
                     ),
