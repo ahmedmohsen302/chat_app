@@ -1,4 +1,5 @@
 import 'package:chat_app/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MessageModel {
   final String message;
@@ -6,7 +7,8 @@ class MessageModel {
 
   MessageModel(this.message, this.id);
 
-  factory MessageModel.fromJson(jsonData) {
-    return MessageModel(jsonData[kMessage], jsonData['id']);
+  factory MessageModel.fromJson(QueryDocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    return MessageModel(data[kMessage], data['id'] ?? '');
   }
 }

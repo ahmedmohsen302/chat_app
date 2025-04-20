@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class SignUpView extends StatefulWidget {
-  SignUpView({super.key});
+  const SignUpView({super.key});
   static String id = 'signUp';
 
   @override
