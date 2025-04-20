@@ -1,4 +1,5 @@
 import 'package:chat_app/constants.dart';
+import 'package:chat_app/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chat_app/cubits/login_cubit/login_cubit.dart';
 import 'package:chat_app/cubits/login_cubit/login_states.dart';
 import 'package:chat_app/helper/show_snack_bar.dart';
@@ -10,25 +11,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends StatefulWidget {
   static String id = 'loginView';
 
+  const LoginView({super.key});
+
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
   GlobalKey<FormState> formKey = GlobalKey();
 
   bool isLoading = false;
 
-  LoginView({super.key});
+  String? email;
+
+  String? password;
 
   @override
   Widget build(BuildContext context) {
-    String? email;
-
-    String? password;
     return BlocConsumer<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is LoginSuccess) {
           isLoading = false;
-          Navigator.pushNamed(context, ChatView.id);
+          BlocProvider.of<ChatCubit>(context).getMessages();
+          Navigator.pushNamed(context, ChatView.id, arguments: email);
         } else if (state is LoginFailure) {
           isLoading = false;
           showSnackBar(context, state.error);

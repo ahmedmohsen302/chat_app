@@ -1,4 +1,5 @@
 import 'package:chat_app/constants.dart';
+import 'package:chat_app/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chat_app/cubits/sign_up_cubit/sign_up_cubit.dart';
 import 'package:chat_app/cubits/sign_up_cubit/sign_up_states.dart';
 import 'package:chat_app/helper/show_snack_bar.dart';
@@ -9,26 +10,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-class SignUpView extends StatelessWidget {
+class SignUpView extends StatefulWidget {
   static String id = 'signUp';
 
+  const SignUpView({super.key});
+
+  @override
+  State<SignUpView> createState() => _SignUpViewState();
+}
+
+class _SignUpViewState extends State<SignUpView> {
   GlobalKey<FormState> formKey = GlobalKey();
 
   bool isLoading = false;
 
-  SignUpView({super.key});
+  String? email;
+
+  String? password;
 
   @override
   Widget build(BuildContext context) {
-    String? email;
-
-    String? password;
-
     return BlocConsumer<SignUpCubit, SignUpState>(
       listener: (context, state) {
         if (state is SignUpSuccess) {
           isLoading = false;
-          Navigator.pushNamed(context, ChatView.id);
+          BlocProvider.of<ChatCubit>(context).getMessages();
+          Navigator.pushNamed(context, ChatView.id, arguments: email);
         } else if (state is SignUpFailure) {
           isLoading = false;
           showSnackBar(context, state.error);
@@ -74,6 +81,7 @@ class SignUpView extends StatelessWidget {
                     ),
                     SizedBox(height: 20),
                     CustomTextField(
+                      obsecureText: true,
                       hintText: 'enter your password',
                       labelText: 'Password',
                       onChanged: (data) {
